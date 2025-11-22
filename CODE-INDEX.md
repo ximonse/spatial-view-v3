@@ -4,10 +4,10 @@
 
 ## Current Status
 
-**Version**: 0.2.0-alpha
-**Total Files**: 6 source files
-**Total Lines**: ~130 lines of actual code
-**Status**: ✅ Working Tldraw app with custom NoteCard shape
+**Version**: 0.3.0-alpha
+**Total Files**: 8 source files
+**Total Lines**: ~228 lines of actual code
+**Status**: ✅ Working Tldraw app with NoteCard shape and IndexedDB persistence
 
 ---
 
@@ -18,7 +18,7 @@
 | File | Lines | Purpose | Status | Dependencies |
 |------|-------|---------|--------|--------------|
 | `src/main.tsx` | 10 | App entry point | ✅ Working | React, App.tsx |
-| `src/App.tsx` | 19 | Main Tldraw component | ✅ Working | Tldraw SDK, NoteCardShape |
+| `src/App.tsx` | 27 | Main Tldraw component | ✅ Working | Tldraw SDK, NoteCardShape, usePersistence |
 | `src/App.css` | 9 | Global styles | ✅ Working | None |
 
 ### Custom Shapes
@@ -27,6 +27,13 @@
 |------|-------|---------|--------|--------------|
 | `src/shapes/types.ts` | 15 | NoteCard type definitions | ✅ Working | Tldraw types |
 | `src/shapes/NoteCardShape.tsx` | 82 | NoteCard shape implementation | ✅ Working | Tldraw, types.ts |
+
+### Storage & Persistence
+
+| File | Lines | Purpose | Status | Dependencies |
+|------|-------|---------|--------|--------------|
+| `src/store/db.ts` | 33 | Dexie IndexedDB setup | ✅ Working | Dexie |
+| `src/hooks/usePersistence.ts` | 69 | Auto-save/restore hook | ✅ Working | Tldraw, db.ts |
 
 ### Configuration Files
 
@@ -57,11 +64,12 @@
 - [x] Vite dev server
 - [x] Vercel deployment config
 - [x] Custom NoteCard shape (basic implementation)
+- [x] IndexedDB persistence (auto-save/restore)
 
 ### 🚧 In Progress
-- [ ] IndexedDB storage
 - [ ] Text editing for NoteCard
 - [ ] Toolbar UI
+- [ ] Export/import functionality
 
 ### 📋 Planned
 - [ ] AI embeddings
@@ -90,9 +98,16 @@ App
 ## Data Flow
 
 ```
-User Action → Tldraw SDK → (Future: IndexedDB) → (Future: Google Drive)
+User Action → Tldraw Editor
                 ↓
-           Render canvas
+        usePersistence hook
+                ↓
+           (debounced)
+                ↓
+    IndexedDB via Dexie
+
+On App Load:
+  IndexedDB → usePersistence → Tldraw.loadSnapshot()
 ```
 
 ---
@@ -111,7 +126,12 @@ User Action → Tldraw SDK → (Future: IndexedDB) → (Future: Google Drive)
 - **Future**: Text editing, auto-height, OCR image support
 
 ### Hooks
-*None yet - planned: useNoteCards, useAI*
+
+**`usePersistence(editor: Editor | null)`**
+- **Purpose**: Auto-save Tldraw state to IndexedDB
+- **Debounce**: 1 second after last change
+- **Features**: Load on mount, save on changes, cleanup on unmount
+- **Storage**: Uses Dexie to save full Tldraw snapshot as JSON
 
 ---
 
