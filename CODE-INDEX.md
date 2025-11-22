@@ -4,10 +4,10 @@
 
 ## Current Status
 
-**Version**: 0.3.0-alpha
-**Total Files**: 8 source files
-**Total Lines**: ~228 lines of actual code
-**Status**: ✅ Working Tldraw app with NoteCard shape and IndexedDB persistence
+**Version**: 0.4.0-alpha
+**Total Files**: 12 source files
+**Total Lines**: ~581 lines of actual code
+**Status**: ✅ Tldraw app with NoteCard, persistence, and command palette
 
 ---
 
@@ -18,7 +18,7 @@
 | File | Lines | Purpose | Status | Dependencies |
 |------|-------|---------|--------|--------------|
 | `src/main.tsx` | 10 | App entry point | ✅ Working | React, App.tsx |
-| `src/App.tsx` | 27 | Main Tldraw component | ✅ Working | Tldraw SDK, NoteCardShape, usePersistence |
+| `src/App.tsx` | 52 | Main Tldraw component | ✅ Working | Tldraw SDK, CommandPalette, registerCommands |
 | `src/App.css` | 9 | Global styles | ✅ Working | None |
 
 ### Custom Shapes
@@ -33,6 +33,14 @@
 | File | Lines | Purpose | Status | Dependencies |
 |------|-------|---------|--------|--------------|
 | `src/lib/constants.ts` | 12 | App-wide constants (A7 size, colors) | ✅ Working | None |
+| `src/lib/commands.ts` | 52 | Command registry system | ✅ Working | Tldraw types |
+| `src/lib/registerCommands.ts` | 96 | Command registrations | ✅ Working | commands.ts |
+
+### Components
+
+| File | Lines | Purpose | Status | Dependencies |
+|------|-------|---------|--------|--------------|
+| `src/components/CommandPalette.tsx` | 153 | Command palette UI | ✅ Working | commands.ts |
 
 ### Storage & Persistence
 
@@ -71,11 +79,15 @@
 - [x] Vercel deployment config
 - [x] Custom NoteCard shape (basic implementation)
 - [x] IndexedDB persistence (auto-save/restore)
+- [x] Command palette (triggered by "/" key)
+- [x] Command registry system
+- [x] Basic commands (export, import, zoom, select, delete)
 
 ### 🚧 In Progress
+- [ ] Batch card creation
+- [ ] Tagging system
+- [ ] Search functionality
 - [ ] Text editing for NoteCard
-- [ ] Toolbar UI
-- [ ] Export/import functionality
 
 ### 📋 Planned
 - [ ] AI embeddings
