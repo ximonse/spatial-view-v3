@@ -34,7 +34,8 @@
 |------|-------|---------|--------|--------------|
 | `src/lib/constants.ts` | 12 | App-wide constants (A7 size, colors) | ✅ Working | None |
 | `src/lib/commands.ts` | 52 | Command registry system | ✅ Working | Tldraw types |
-| `src/lib/registerCommands.ts` | 96 | Command registrations | ✅ Working | commands.ts |
+| `src/lib/registerCommands.ts` | 120 | Command registrations | ✅ Working | commands.ts, migrateLegacy.ts |
+| `src/lib/migrateLegacy.ts` | 86 | V2 to V3 migration | ✅ Working | Tldraw, constants.ts |
 
 ### Components
 
@@ -82,6 +83,7 @@
 - [x] Command palette (triggered by "/" key)
 - [x] Command registry system
 - [x] Basic commands (export, import, zoom, select, delete)
+- [x] Legacy V2 JSON migration (auto-detects and converts)
 
 ### 🚧 In Progress
 - [ ] Batch card creation

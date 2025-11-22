@@ -4,6 +4,7 @@
  */
 
 import { registerCommand } from './commands'
+import { isLegacyFormat, migrateLegacyCards } from './migrateLegacy'
 
 export function registerAllCommands() {
   // File commands
@@ -47,9 +48,18 @@ export function registerAllCommands() {
               return
             }
             const text = await file.text()
-            const snapshot = JSON.parse(text)
-            editor.loadSnapshot(snapshot)
-            console.log('Canvas imported successfully')
+            const data = JSON.parse(text)
+
+            // Check if legacy format (V2)
+            if (isLegacyFormat(data)) {
+              console.log('Detected legacy format, migrating...')
+              migrateLegacyCards(editor, data)
+              console.log('Legacy cards migrated successfully')
+            } else {
+              // Modern Tldraw format
+              editor.loadSnapshot(data)
+              console.log('Canvas imported successfully')
+            }
             resolve()
           } catch (error) {
             console.error('Failed to import canvas:', error)
