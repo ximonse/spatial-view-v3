@@ -4,10 +4,10 @@
 
 ## Current Status
 
-**Version**: 0.1.0-alpha  
-**Total Files**: 4 source files  
-**Total Lines**: ~50 lines of actual code  
-**Status**: ✅ Minimal working Tldraw app
+**Version**: 0.2.0-alpha
+**Total Files**: 6 source files
+**Total Lines**: ~130 lines of actual code
+**Status**: ✅ Working Tldraw app with custom NoteCard shape
 
 ---
 
@@ -17,9 +17,16 @@
 
 | File | Lines | Purpose | Status | Dependencies |
 |------|-------|---------|--------|--------------|
-| `src/main.tsx` | 11 | App entry point | ✅ Working | React, App.tsx |
-| `src/App.tsx` | 9 | Main Tldraw component | ✅ Working | Tldraw SDK |
+| `src/main.tsx` | 10 | App entry point | ✅ Working | React, App.tsx |
+| `src/App.tsx` | 19 | Main Tldraw component | ✅ Working | Tldraw SDK, NoteCardShape |
 | `src/App.css` | 9 | Global styles | ✅ Working | None |
+
+### Custom Shapes
+
+| File | Lines | Purpose | Status | Dependencies |
+|------|-------|---------|--------|--------------|
+| `src/shapes/types.ts` | 15 | NoteCard type definitions | ✅ Working | Tldraw types |
+| `src/shapes/NoteCardShape.tsx` | 82 | NoteCard shape implementation | ✅ Working | Tldraw, types.ts |
 
 ### Configuration Files
 
@@ -49,10 +56,11 @@
 - [x] TypeScript strict mode
 - [x] Vite dev server
 - [x] Vercel deployment config
+- [x] Custom NoteCard shape (basic implementation)
 
 ### 🚧 In Progress
-- [ ] Custom NoteCard shape
 - [ ] IndexedDB storage
+- [ ] Text editing for NoteCard
 - [ ] Toolbar UI
 
 ### 📋 Planned
@@ -70,7 +78,11 @@
 App
 └─ Tldraw (SDK component)
    ├─ Built-in shapes (rectangle, ellipse, arrow, etc.)
-   └─ [Future] Custom NoteCard shape
+   └─ Custom shapes
+      └─ NoteCardShape (note-card)
+         ├─ Renders as colored card with text
+         ├─ Resizable (w/h props)
+         └─ [Future] Text editing
 ```
 
 ---
@@ -91,7 +103,12 @@ User Action → Tldraw SDK → (Future: IndexedDB) → (Future: Google Drive)
 *None yet - using Tldraw defaults*
 
 ### Custom Shapes
-*None yet - planned: NoteCardShape*
+
+**`NoteCardShape`** (type: `'note-card'`)
+- **Props**: `{ w: number, h: number, text: string, color: TLDefaultColorStyle }`
+- **Default size**: 300x200px
+- **Features**: Colored background, bordered, resizable
+- **Future**: Text editing, auto-height, OCR image support
 
 ### Hooks
 *None yet - planned: useNoteCards, useAI*
