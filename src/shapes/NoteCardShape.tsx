@@ -11,17 +11,19 @@ import {
   type TLResizeInfo,
 } from 'tldraw'
 import type { NoteCardShape } from './types'
+import { A7_CARD, DEFAULT_CARD_COLOR } from '../lib/constants'
 
 export class NoteCardUtil extends BaseBoxShapeUtil<NoteCardShape> {
   static override type = 'note-card' as const
 
   // Default properties for new cards
+  // A7 index card size: 74×105mm scaled for modern displays
   getDefaultProps(): NoteCardShape['props'] {
     return {
-      w: 300,
-      h: 200,
+      w: A7_CARD.width,
+      h: A7_CARD.height,
       text: '',
-      color: 'light-blue',
+      color: DEFAULT_CARD_COLOR,
     }
   }
 

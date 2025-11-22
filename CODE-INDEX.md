@@ -26,7 +26,13 @@
 | File | Lines | Purpose | Status | Dependencies |
 |------|-------|---------|--------|--------------|
 | `src/shapes/types.ts` | 15 | NoteCard type definitions | ✅ Working | Tldraw types |
-| `src/shapes/NoteCardShape.tsx` | 82 | NoteCard shape implementation | ✅ Working | Tldraw, types.ts |
+| `src/shapes/NoteCardShape.tsx` | 84 | NoteCard shape implementation | ✅ Working | Tldraw, types.ts, constants.ts |
+
+### Utilities
+
+| File | Lines | Purpose | Status | Dependencies |
+|------|-------|---------|--------|--------------|
+| `src/lib/constants.ts` | 12 | App-wide constants (A7 size, colors) | ✅ Working | None |
 
 ### Storage & Persistence
 
@@ -121,7 +127,7 @@ On App Load:
 
 **`NoteCardShape`** (type: `'note-card'`)
 - **Props**: `{ w: number, h: number, text: string, color: TLDefaultColorStyle }`
-- **Default size**: 300x200px
+- **Default size**: 440x620px (A7 index card: 74×105mm, scaled for modern displays)
 - **Features**: Colored background, bordered, resizable
 - **Future**: Text editing, auto-height, OCR image support
 
