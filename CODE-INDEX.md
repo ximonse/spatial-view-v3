@@ -26,7 +26,7 @@
 | File | Lines | Purpose | Status | Dependencies |
 |------|-------|---------|--------|--------------|
 | `src/shapes/types.ts` | 15 | NoteCard type definitions | ✅ Working | Tldraw types |
-| `src/shapes/NoteCardShape.tsx` | 84 | NoteCard shape implementation | ✅ Working | Tldraw, types.ts, constants.ts |
+| `src/shapes/NoteCardShape.tsx` | 137 | NoteCard shape implementation | ✅ Working | Tldraw, types.ts, constants.ts |
 
 ### Utilities
 
@@ -84,12 +84,12 @@
 - [x] Command registry system
 - [x] Basic commands (export, import, zoom, select, delete)
 - [x] Legacy V2 JSON migration (auto-detects and converts)
+- [x] Text editing for NoteCard (double-click to edit)
 
 ### 🚧 In Progress
 - [ ] Batch card creation
 - [ ] Tagging system
 - [ ] Search functionality
-- [ ] Text editing for NoteCard
 
 ### 📋 Planned
 - [ ] AI embeddings
@@ -142,8 +142,9 @@ On App Load:
 **`NoteCardShape`** (type: `'note-card'`)
 - **Props**: `{ w: number, h: number, text: string, color: TLDefaultColorStyle }`
 - **Default size**: 440x620px (A7 index card: 74×105mm, scaled for modern displays)
-- **Features**: Colored background, bordered, resizable
-- **Future**: Text editing, auto-height, OCR image support
+- **Features**: Colored background, bordered, resizable, text editing
+- **Editing**: Double-click to edit, Escape to finish
+- **Future**: Auto-height, OCR image support, tags, comments
 
 ### Hooks
 

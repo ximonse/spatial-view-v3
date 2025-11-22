@@ -31,12 +31,16 @@ export class NoteCardUtil extends BaseBoxShapeUtil<NoteCardShape> {
   canResize = () => true
   isAspectRatioLocked = () => false
 
+  // Enable text editing
+  canEdit = () => true
+
   // Component that renders the card
   component(shape: NoteCardShape) {
     const theme = getDefaultColorTheme({
       isDarkMode: false,
     })
     const color = theme[shape.props.color]
+    const isEditing = this.editor.getEditingShapeId() === shape.id
 
     return (
       <HTMLContainer
@@ -54,20 +58,59 @@ export class NoteCardUtil extends BaseBoxShapeUtil<NoteCardShape> {
           fontSize: '14px',
           lineHeight: '1.5',
           color: '#1a1a1a',
-          userSelect: 'none',
+          pointerEvents: 'all',
         }}
       >
-        <div
-          style={{
-            width: '100%',
-            height: '100%',
-            overflow: 'auto',
-            whiteSpace: 'pre-wrap',
-            wordBreak: 'break-word',
-          }}
-        >
-          {shape.props.text || 'Klicka för att redigera...'}
-        </div>
+        {isEditing ? (
+          <textarea
+            value={shape.props.text}
+            onChange={(e) => {
+              this.editor.updateShape({
+                id: shape.id,
+                type: 'note-card',
+                props: { text: e.target.value },
+              })
+            }}
+            onKeyDown={(e) => {
+              // Exit edit mode on Escape
+              if (e.key === 'Escape') {
+                this.editor.setEditingShape(null)
+              }
+              // Prevent propagation to Tldraw
+              e.stopPropagation()
+            }}
+            autoFocus
+            style={{
+              width: '100%',
+              height: '100%',
+              background: 'transparent',
+              border: 'none',
+              outline: 'none',
+              fontFamily: 'inherit',
+              fontSize: 'inherit',
+              lineHeight: 'inherit',
+              color: 'inherit',
+              resize: 'none',
+              whiteSpace: 'pre-wrap',
+              wordBreak: 'break-word',
+            }}
+            placeholder="Skriv här..."
+          />
+        ) : (
+          <div
+            style={{
+              width: '100%',
+              height: '100%',
+              overflow: 'auto',
+              whiteSpace: 'pre-wrap',
+              wordBreak: 'break-word',
+              cursor: 'text',
+            }}
+            onDoubleClick={() => this.editor.setEditingShape(shape.id)}
+          >
+            {shape.props.text || 'Dubbelklicka för att redigera...'}
+          </div>
+        )}
       </HTMLContainer>
     )
   }
@@ -80,5 +123,15 @@ export class NoteCardUtil extends BaseBoxShapeUtil<NoteCardShape> {
   // Handle resizing
   override onResize = (shape: NoteCardShape, info: TLResizeInfo<NoteCardShape>) => {
     return resizeBox(shape, info)
+  }
+
+  // Handle double-click to edit
+  override onDoubleClick = () => {
+    // Handled by component double-click
+  }
+
+  // Handle text changes during editing
+  override onEditEnd = () => {
+    // Text is automatically saved via updateShape
   }
 }
