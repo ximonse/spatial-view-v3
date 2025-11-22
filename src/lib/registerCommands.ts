@@ -34,17 +34,31 @@ export function registerAllCommands() {
     category: 'file',
     action: async (editor) => {
       if (!editor) return
-      const input = document.createElement('input')
-      input.type = 'file'
-      input.accept = '.json'
-      input.onchange = async (e) => {
-        const file = (e.target as HTMLInputElement).files?.[0]
-        if (!file) return
-        const text = await file.text()
-        const snapshot = JSON.parse(text)
-        editor.loadSnapshot(snapshot)
-      }
-      input.click()
+
+      return new Promise<void>((resolve) => {
+        const input = document.createElement('input')
+        input.type = 'file'
+        input.accept = '.json'
+        input.onchange = async (e) => {
+          try {
+            const file = (e.target as HTMLInputElement).files?.[0]
+            if (!file) {
+              resolve()
+              return
+            }
+            const text = await file.text()
+            const snapshot = JSON.parse(text)
+            editor.loadSnapshot(snapshot)
+            console.log('Canvas imported successfully')
+            resolve()
+          } catch (error) {
+            console.error('Failed to import canvas:', error)
+            alert('Failed to import file. Make sure it is a valid Spatial View JSON file.')
+            resolve()
+          }
+        }
+        input.click()
+      })
     },
   })
 
