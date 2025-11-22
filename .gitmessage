@@ -1,0 +1,17 @@
+# Commit message template
+# 
+# After committing, ask yourself:
+# - Did I update CODE-INDEX.md?
+# - Did I update ARCHITECTURE.md if structure changed?
+# - Are all files still under 200 lines?
+#
+# Format: <type>: <subject>
+#
+# Types: feat, fix, docs, refactor, test, chore
+#
+# Example:
+# feat: Add NoteCard custom shape
+#
+# - Implemented NoteCardShape in src/shapes/
+# - Updated CODE-INDEX.md with new component
+# - All files under 200 lines ✅
