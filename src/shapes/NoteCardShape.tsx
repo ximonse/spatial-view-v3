@@ -24,6 +24,7 @@ export class NoteCardUtil extends BaseBoxShapeUtil<NoteCardShape> {
       h: A7_CARD.height,
       text: '',
       color: DEFAULT_CARD_COLOR,
+      fontSize: 'm',
     }
   }
 
@@ -34,6 +35,17 @@ export class NoteCardUtil extends BaseBoxShapeUtil<NoteCardShape> {
   // Enable text editing
   canEdit = () => true
 
+  // Map fontSize to pixel size
+  private getFontSize(fontSize: 's' | 'm' | 'l' | 'xl'): string {
+    const sizes = {
+      s: '16px',
+      m: '25px',
+      l: '32px',
+      xl: '40px',
+    }
+    return sizes[fontSize]
+  }
+
   // Component that renders the card
   component(shape: NoteCardShape) {
     const theme = getDefaultColorTheme({
@@ -41,6 +53,7 @@ export class NoteCardUtil extends BaseBoxShapeUtil<NoteCardShape> {
     })
     const color = theme[shape.props.color]
     const isEditing = this.editor.getEditingShapeId() === shape.id
+    const fontSize = this.getFontSize(shape.props.fontSize)
 
     return (
       <HTMLContainer
@@ -55,7 +68,7 @@ export class NoteCardUtil extends BaseBoxShapeUtil<NoteCardShape> {
           display: 'flex',
           alignItems: 'flex-start',
           fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-          fontSize: '14px',
+          fontSize,
           lineHeight: '1.5',
           color: '#1a1a1a',
           pointerEvents: 'all',

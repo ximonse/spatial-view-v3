@@ -117,4 +117,39 @@ export function registerAllCommands() {
       editor?.deleteShapes(editor.getSelectedShapeIds())
     },
   })
+
+  // Font size commands
+  const fontSizes: Array<{ size: 's' | 'm' | 'l' | 'xl'; name: string; key: string }> = [
+    { size: 's', name: 'Small', key: '1' },
+    { size: 'm', name: 'Medium', key: '2' },
+    { size: 'l', name: 'Large', key: '3' },
+    { size: 'xl', name: 'Extra Large', key: '4' },
+  ]
+
+  fontSizes.forEach(({ size, name, key }) => {
+    registerCommand({
+      id: `font-size-${size}`,
+      name: `Font Size: ${name}`,
+      description: `Set font size to ${name.toLowerCase()}`,
+      keybinding: `Alt+${key}`,
+      category: 'edit',
+      action: (editor) => {
+        if (!editor) return
+        const selectedIds = editor.getSelectedShapeIds()
+        const updates = selectedIds
+          .map((id) => {
+            const shape = editor.getShape(id)
+            if (shape?.type === 'note-card') {
+              return { id, type: 'note-card' as const, props: { fontSize: size } }
+            }
+            return null
+          })
+          .filter((u): u is NonNullable<typeof u> => u !== null)
+
+        if (updates.length > 0) {
+          editor.updateShapes(updates)
+        }
+      },
+    })
+  })
 }

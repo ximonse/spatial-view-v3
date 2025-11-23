@@ -11,5 +11,6 @@ export type NoteCardShape = TLBaseShape<
     h: number
     text: string
     color: TLDefaultColorStyle
+    fontSize: 's' | 'm' | 'l' | 'xl'
   }
 >

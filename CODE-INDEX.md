@@ -1,12 +1,12 @@
 # Code Index - Source of Truth
 
-**Last Updated**: 2025-11-22 (auto-update on each commit)
+**Last Updated**: 2025-11-23 (auto-update on each commit)
 
 ## Current Status
 
 **Version**: 0.4.0-alpha
 **Total Files**: 12 source files
-**Total Lines**: ~581 lines of actual code
+**Total Lines**: ~616 lines of actual code
 **Status**: ✅ Tldraw app with NoteCard, persistence, and command palette
 
 ---
@@ -25,8 +25,8 @@
 
 | File | Lines | Purpose | Status | Dependencies |
 |------|-------|---------|--------|--------------|
-| `src/shapes/types.ts` | 15 | NoteCard type definitions | ✅ Working | Tldraw types |
-| `src/shapes/NoteCardShape.tsx` | 137 | NoteCard shape implementation | ✅ Working | Tldraw, types.ts, constants.ts |
+| `src/shapes/types.ts` | 16 | NoteCard type definitions | ✅ Working | Tldraw types |
+| `src/shapes/NoteCardShape.tsx` | 156 | NoteCard shape implementation | ✅ Working | Tldraw, types.ts, constants.ts |
 
 ### Utilities
 
@@ -34,7 +34,7 @@
 |------|-------|---------|--------|--------------|
 | `src/lib/constants.ts` | 12 | App-wide constants (A7 size, colors) | ✅ Working | None |
 | `src/lib/commands.ts` | 52 | Command registry system | ✅ Working | Tldraw types |
-| `src/lib/registerCommands.ts` | 120 | Command registrations | ✅ Working | commands.ts, migrateLegacy.ts |
+| `src/lib/registerCommands.ts` | 156 | Command registrations | ✅ Working | commands.ts, migrateLegacy.ts |
 | `src/lib/migrateLegacy.ts` | 86 | V2 to V3 migration | ✅ Working | Tldraw, constants.ts |
 
 ### Components
@@ -85,6 +85,7 @@
 - [x] Basic commands (export, import, zoom, select, delete)
 - [x] Legacy V2 JSON migration (auto-detects and converts)
 - [x] Text editing for NoteCard (double-click to edit)
+- [x] Font size control (Alt+1/2/3/4 for s/m/l/xl, default 25px)
 
 ### 🚧 In Progress
 - [ ] Batch card creation
@@ -110,7 +111,8 @@ App
       └─ NoteCardShape (note-card)
          ├─ Renders as colored card with text
          ├─ Resizable (w/h props)
-         └─ [Future] Text editing
+         ├─ Text editing (double-click)
+         └─ Adjustable font size (Alt+1/2/3/4)
 ```
 
 ---
@@ -140,10 +142,12 @@ On App Load:
 ### Custom Shapes
 
 **`NoteCardShape`** (type: `'note-card'`)
-- **Props**: `{ w: number, h: number, text: string, color: TLDefaultColorStyle }`
+- **Props**: `{ w: number, h: number, text: string, color: TLDefaultColorStyle, fontSize: 's' | 'm' | 'l' | 'xl' }`
 - **Default size**: 440x620px (A7 index card: 74×105mm, scaled for modern displays)
-- **Features**: Colored background, bordered, resizable, text editing
+- **Font sizes**: Small (16px), Medium (25px - default), Large (32px), Extra Large (40px)
+- **Features**: Colored background, bordered, resizable, text editing, adjustable font size
 - **Editing**: Double-click to edit, Escape to finish
+- **Font shortcuts**: Alt+1/2/3/4 for small/medium/large/xl
 - **Future**: Auto-height, OCR image support, tags, comments
 
 ### Hooks
