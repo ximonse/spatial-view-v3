@@ -29,8 +29,8 @@ export class NoteCardUtil extends BaseBoxShapeUtil<NoteCardShape> {
     }
   }
 
-  // Aspect ratio behavior
-  canResize = () => true
+  // Disable resizing - cards auto-grow with content
+  canResize = () => false
   isAspectRatioLocked = () => false
 
   // Enable text editing
@@ -60,12 +60,12 @@ export class NoteCardUtil extends BaseBoxShapeUtil<NoteCardShape> {
       <HTMLContainer
         style={{
           width: shape.props.w,
-          height: shape.props.h,
+          minHeight: shape.props.h,
           background: color.semi,
           border: `2px solid ${color.solid}`,
           borderRadius: '8px',
           padding: '12px',
-          overflow: 'hidden',
+          overflow: 'visible',
           display: 'flex',
           alignItems: 'flex-start',
           fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
@@ -114,8 +114,6 @@ export class NoteCardUtil extends BaseBoxShapeUtil<NoteCardShape> {
           <div
             style={{
               width: '100%',
-              height: '100%',
-              overflow: 'auto',
               cursor: 'text',
             }}
             onDoubleClick={() => this.editor.setEditingShape(shape.id)}

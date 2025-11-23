@@ -7,6 +7,28 @@ import { registerCommand } from './commands'
 import { isLegacyFormat, migrateLegacyCards } from './migrateLegacy'
 
 export function registerAllCommands() {
+  // Card commands
+  registerCommand({
+    id: 'new-card',
+    name: 'New Card',
+    description: 'Create a new note card',
+    keybinding: 'N',
+    category: 'cards',
+    action: (editor) => {
+      if (!editor) return
+
+      // Get viewport center
+      const viewportCenter = editor.getViewportPageCenter()
+
+      // Create new card at viewport center
+      editor.createShape({
+        type: 'note-card',
+        x: viewportCenter.x - 310, // Half of card width (620/2)
+        y: viewportCenter.y - 220, // Half of card height (440/2)
+      })
+    },
+  })
+
   // File commands
   registerCommand({
     id: 'export-json',
