@@ -10,6 +10,7 @@ import {
   getDefaultColorTheme,
   type TLResizeInfo,
 } from 'tldraw'
+import Markdown from 'react-markdown'
 import type { NoteCardShape } from './types'
 import { A7_CARD, DEFAULT_CARD_COLOR } from '../lib/constants'
 
@@ -115,13 +116,26 @@ export class NoteCardUtil extends BaseBoxShapeUtil<NoteCardShape> {
               width: '100%',
               height: '100%',
               overflow: 'auto',
-              whiteSpace: 'pre-wrap',
-              wordBreak: 'break-word',
               cursor: 'text',
             }}
             onDoubleClick={() => this.editor.setEditingShape(shape.id)}
           >
-            {shape.props.text || 'Dubbelklicka för att redigera...'}
+            {shape.props.text ? (
+              <Markdown
+                components={{
+                  p: ({ children }) => <p style={{ margin: '0 0 0.5em 0' }}>{children}</p>,
+                  em: ({ children }) => <em style={{ color: '#666' }}>{children}</em>,
+                  strong: ({ children }) => <strong>{children}</strong>,
+                  h1: ({ children }) => <h1 style={{ fontSize: '1.4em', fontWeight: 'bold', margin: '0.3em 0 0.2em 0' }}>{children}</h1>,
+                  h2: ({ children }) => <h2 style={{ fontSize: '1.2em', fontWeight: 'bold', margin: '0.3em 0 0.2em 0' }}>{children}</h2>,
+                  h3: ({ children }) => <h3 style={{ fontSize: '1.1em', fontWeight: 'bold', margin: '0.3em 0 0.2em 0' }}>{children}</h3>,
+                }}
+              >
+                {shape.props.text}
+              </Markdown>
+            ) : (
+              <span style={{ color: '#999' }}>Dubbelklicka för att redigera...</span>
+            )}
           </div>
         )}
       </HTMLContainer>

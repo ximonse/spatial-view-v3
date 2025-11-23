@@ -58,7 +58,13 @@ export function CommandPalette({ isOpen, onClose, editor }: CommandPaletteProps)
   }, [isOpen, filteredCommands, selectedIndex])
 
   const executeCommand = async (command: Command) => {
-    await command.action(editor)
+    console.log('Executing command:', command.name, 'Editor:', editor)
+    try {
+      await command.action(editor)
+      console.log('Command executed successfully')
+    } catch (error) {
+      console.error('Command failed:', error)
+    }
     onClose()
   }
 

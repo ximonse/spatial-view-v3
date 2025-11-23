@@ -26,7 +26,7 @@
 | File | Lines | Purpose | Status | Dependencies |
 |------|-------|---------|--------|--------------|
 | `src/shapes/types.ts` | 16 | NoteCard type definitions | ✅ Working | Tldraw types |
-| `src/shapes/NoteCardShape.tsx` | 156 | NoteCard shape implementation | ✅ Working | Tldraw, types.ts, constants.ts |
+| `src/shapes/NoteCardShape.tsx` | 164 | NoteCard shape implementation | ✅ Working | Tldraw, types.ts, constants.ts, react-markdown |
 
 ### Utilities
 
@@ -41,7 +41,7 @@
 
 | File | Lines | Purpose | Status | Dependencies |
 |------|-------|---------|--------|--------------|
-| `src/components/CommandPalette.tsx` | 153 | Command palette UI | ✅ Working | commands.ts |
+| `src/components/CommandPalette.tsx` | 159 | Command palette UI | ✅ Working | commands.ts |
 
 ### Storage & Persistence
 
@@ -86,6 +86,9 @@
 - [x] Legacy V2 JSON migration (auto-detects and converts)
 - [x] Text editing for NoteCard (double-click to edit)
 - [x] Font size control (Alt+1/2/3/4 for s/m/l/xl, default 25px)
+- [x] Markdown support in cards (*italic*, **bold**, # heading)
+- [x] Landscape card orientation (620x440px)
+- [x] Debug logging in command palette
 
 ### 🚧 In Progress
 - [ ] Batch card creation
@@ -143,12 +146,13 @@ On App Load:
 
 **`NoteCardShape`** (type: `'note-card'`)
 - **Props**: `{ w: number, h: number, text: string, color: TLDefaultColorStyle, fontSize: 's' | 'm' | 'l' | 'xl' }`
-- **Default size**: 440x620px (A7 index card: 74×105mm, scaled for modern displays)
+- **Default size**: 620x440px (A7 index card landscape: 105×74mm, scaled for modern displays)
 - **Font sizes**: Small (16px), Medium (25px - default), Large (32px), Extra Large (40px)
-- **Features**: Colored background, bordered, resizable, text editing, adjustable font size
+- **Features**: Colored background, bordered, resizable, text editing with markdown support, adjustable font size
 - **Editing**: Double-click to edit, Escape to finish
+- **Markdown support**: `*italic*` (gray comments), `**bold**`, `# heading`
 - **Font shortcuts**: Alt+1/2/3/4 for small/medium/large/xl
-- **Future**: Auto-height, OCR image support, tags, comments
+- **Future**: Auto-height, OCR image support, structured tags
 
 ### Hooks
 
@@ -163,10 +167,11 @@ On App Load:
 ## Dependencies
 
 ### Production
-- `tldraw@2.x` - Infinite canvas SDK
+- `tldraw@3.15.5` - Infinite canvas SDK (MIT licensed)
 - `react@18.x` - UI framework
 - `react-dom@18.x` - React DOM renderer
-- `dexie@4.x` - IndexedDB wrapper (installed, not used yet)
+- `react-markdown@9.x` - Markdown rendering for card text
+- `dexie@4.x` - IndexedDB wrapper for persistence
 - `zustand@4.x` - State management (installed, not used yet)
 
 ### Development
