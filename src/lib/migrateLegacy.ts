@@ -38,13 +38,20 @@ const COLOR_MAP: Record<string, string> = {
 
 /**
  * Check if JSON is legacy format
+ * Legacy format has 'cards' array and does NOT have 'store' (which Tldraw snapshots have)
  */
 export function isLegacyFormat(data: unknown): data is LegacyExport {
+  if (typeof data !== 'object' || data === null) {
+    return false
+  }
+
+  const obj = data as Record<string, unknown>
+
+  // Legacy format: has 'cards' array but no 'store' property
   return (
-    typeof data === 'object' &&
-    data !== null &&
-    'cards' in data &&
-    Array.isArray((data as LegacyExport).cards)
+    'cards' in obj &&
+    Array.isArray(obj.cards) &&
+    !('store' in obj)
   )
 }
 
@@ -75,6 +82,7 @@ export function migrateLegacyCards(editor: Editor, legacyData: LegacyExport) {
         h: A7_CARD.height,
         text: fullText,
         color,
+        fontSize: 'm',
       },
     }
   })

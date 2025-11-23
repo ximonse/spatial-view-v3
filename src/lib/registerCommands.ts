@@ -72,20 +72,51 @@ export function registerAllCommands() {
             const text = await file.text()
             const data = JSON.parse(text)
 
-            // Check if legacy format (V2)
+            const keys = Object.keys(data)
+            console.log('Imported data structure:', {
+              hasCards: 'cards' in data,
+              hasStore: 'store' in data,
+              hasSchema: 'schema' in data,
+              keys: keys,
+              firstKey: keys[0],
+              secondKey: keys[1],
+            })
+
+            // Check if legacy Spatial View V2 format (Konva)
             if (isLegacyFormat(data)) {
-              console.log('Detected legacy format, migrating...')
-              migrateLegacyCards(editor, data)
-              console.log('Legacy cards migrated successfully')
+              console.log('Detected legacy Spatial View V2 format, migrating...')
+              try {
+                migrateLegacyCards(editor, data)
+                console.log('Legacy cards migrated successfully')
+              } catch (migrationError) {
+                console.error('Migration failed:', migrationError)
+                alert(`Failed to migrate legacy file: ${migrationError}`)
+                resolve()
+                return
+              }
+            } else if ('document' in data) {
+              // Old Tldraw format (v1.x) - not supported
+              console.error('Old Tldraw v1.x format detected - not supported')
+              alert('This file is from an older version of Tldraw and cannot be imported. Please export it as Spatial View V2 format first.')
+              resolve()
+              return
             } else {
-              // Modern Tldraw format
-              editor.loadSnapshot(data)
-              console.log('Canvas imported successfully')
+              // Modern Tldraw format (v2.x/v3.x)
+              console.log('Attempting to load modern Tldraw snapshot...')
+              try {
+                editor.loadSnapshot(data)
+                console.log('Canvas imported successfully')
+              } catch (snapshotError) {
+                console.error('Snapshot load failed:', snapshotError)
+                alert(`Failed to load snapshot: ${snapshotError}`)
+                resolve()
+                return
+              }
             }
             resolve()
           } catch (error) {
             console.error('Failed to import canvas:', error)
-            alert('Failed to import file. Make sure it is a valid Spatial View JSON file.')
+            alert(`Failed to import file: ${error instanceof Error ? error.message : 'Unknown error'}`)
             resolve()
           }
         }
