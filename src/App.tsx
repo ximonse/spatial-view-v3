@@ -22,8 +22,8 @@ export default function App() {
   // Global keyboard shortcut for command palette
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // "/" to open command palette
-      if (e.key === '/' && !isPaletteOpen) {
+      // Space to open command palette
+      if (e.key === ' ' && !isPaletteOpen) {
         e.preventDefault()
         setIsPaletteOpen(true)
       }

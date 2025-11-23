@@ -115,6 +115,8 @@ export class NoteCardUtil extends BaseBoxShapeUtil<NoteCardShape> {
             style={{
               width: '100%',
               cursor: 'text',
+              wordWrap: 'break-word',
+              overflowWrap: 'break-word',
             }}
             onDoubleClick={() => this.editor.setEditingShape(shape.id)}
           >

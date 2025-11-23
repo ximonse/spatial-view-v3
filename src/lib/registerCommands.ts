@@ -5,6 +5,7 @@
 
 import { registerCommand } from './commands'
 import { isLegacyFormat, migrateLegacyCards } from './migrateLegacy'
+import { A7_CARD, DEFAULT_CARD_COLOR } from './constants'
 
 export function registerAllCommands() {
   // Card commands
@@ -17,14 +18,22 @@ export function registerAllCommands() {
     action: (editor) => {
       if (!editor) return
 
-      // Get viewport center
-      const viewportCenter = editor.getViewportPageCenter()
+      // Get viewport center (tldraw 3.x)
+      const viewportBounds = editor.getViewportPageBounds()
+      const viewportCenter = viewportBounds.center
 
-      // Create new card at viewport center
+      // Create new card at viewport center with default props
       editor.createShape({
         type: 'note-card',
-        x: viewportCenter.x - 310, // Half of card width (620/2)
-        y: viewportCenter.y - 220, // Half of card height (440/2)
+        x: viewportCenter.x - A7_CARD.width / 2,
+        y: viewportCenter.y - A7_CARD.height / 2,
+        props: {
+          w: A7_CARD.width,
+          h: A7_CARD.height,
+          text: '',
+          color: DEFAULT_CARD_COLOR,
+          fontSize: 'm',
+        },
       })
     },
   })
